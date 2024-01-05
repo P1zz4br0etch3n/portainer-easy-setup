@@ -7,13 +7,16 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /portainer_data:/data
+      - /data/portainer:/data
     ports:
-      - 8000:8000
-      - 9443:9443
+      - 8080:8000
     networks:
-      - nginx-proxy-manager
+      - proxy-tier
+    environment:
+      - VIRTUAL_HOST=<host>
+      - VIRTUAL_PORT=9000
+      - LETSENCRYPT_HOST=<host>
+      - LETSENCRYPT_EMAIL=<email>
 networks:
-  nginx-proxy-manager:
-    name: nginx-proxy-manager
+  proxy-tier:
     external: true
